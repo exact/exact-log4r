@@ -117,14 +117,14 @@ module Log4r
       pri = SYSLOG_LEVELS_MAP[@levels_map[LNAMES[logevent.level]]] rescue pri = LOG_INFO
       o = format(logevent)
       if o.kind_of? Exception then
-	msg = "#{o.class} at (#{o.backtrace[0]}): #{o.message}"
+      	msg = "#{o.class} at (#{o.backtrace[0]}): #{o.message}"
       elsif o.respond_to? :to_str then
-	msg = o.to_str
+      	msg = o.to_str
       else
-	msg = o.inspect
+      	msg = o.inspect
       end
 
-      @syslog.log(pri, '%s', msg)
+      @syslog.log(pri, '%s', adjust(msg))
     end
   end
 end

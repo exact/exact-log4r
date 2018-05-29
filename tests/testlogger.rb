@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative 'test_helper'
 
 class MyFormatter1 < Log4r::Formatter
   def format(event)
@@ -12,7 +12,7 @@ class MyFormatter2 < Log4r::Formatter
   end
 end
 
-class TestLogger < TestCase
+class TestLogger < Minitest::Test
   include Log4r
 
   def test_root
@@ -25,7 +25,7 @@ class TestLogger < TestCase
     assert(l1.parent == nil, "Root's parent wasn't nil!")
   end
   def test_validation
-    assert_raise(ArgumentError) { Logger.new }
+    assert_raises(ArgumentError) { Logger.new }
     assert_nothing_raised { Logger.new('validate', nil) }
   end
   def test_all_off
@@ -49,13 +49,13 @@ class TestLogger < TestCase
     StdoutOutputter.new('fake1')
     StdoutOutputter.new('fake2')
     a = Logger.new("add")
-    assert_raise(TypeError) { a.add 'bogus' }
-    assert_raise(TypeError) { a.add Class }
-    assert_raise(TypeError) { a.add 'fake1', Class }
+    assert_raises(TypeError) { a.add 'bogus' }
+    assert_raises(TypeError) { a.add Class }
+    assert_raises(TypeError) { a.add 'fake1', Class }
     assert_nothing_raised { a.add 'fake1', 'fake2' }
   end
   def test_repository
-    assert_raise(NameError) { Logger.get('bogusbogus') }
+    assert_raises(NameError) { Logger.get('bogusbogus') }
     assert_nothing_raised { Logger['bogusbogus'] }
   end
   def test_heiarchy
@@ -83,7 +83,7 @@ class TestLogger < TestCase
     assert(d.path == "a", "path wasn't set properly")
     assert(d.level == a.level, "didn't inherit parent's level") 
     assert(d.parent == a, "parent wasn't what is expected")
-    assert_raise(ArgumentError) { Logger.new("::a") }
+    assert_raises(ArgumentError) { Logger.new("::a") }
   end
   def test_undefined_parents
     a = Logger.new 'has::no::real::parents::me'

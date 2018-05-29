@@ -120,6 +120,11 @@ module Log4r
       @formatter.format(logevent)
     end
 
+    # Common method to 'adjust' the final message immediately before writing
+    def adjust(msg)
+      msg
+    end
+
     # Abstract method to actually write the data to a destination.
     # Custom outputters should overload this to specify how the
     # formatted data should be written and to where. 

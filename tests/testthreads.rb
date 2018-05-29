@@ -8,9 +8,9 @@
 # test.
 #
 
-require 'test_helper'
+require_relative 'test_helper'
 
-class TestThreads < TestCase
+class TestThreads < Minitest::Test
   include Log4r
 
   NUMTHREADS = 1000

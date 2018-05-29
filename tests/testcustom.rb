@@ -1,12 +1,12 @@
-require 'test_helper'
+require_relative 'test_helper'
 
 # tests the customization of Log4r levels
-class TestCustom < TestCase
+class TestCustom < Minitest::Test
   include Log4r
 
   def test_validation
-    assert_raise(TypeError) { Configurator.custom_levels "lowercase" }
-    assert_raise(TypeError) { Configurator.custom_levels "With space" }
+    assert_raises(TypeError) { Configurator.custom_levels "lowercase" }
+    assert_raises(TypeError) { Configurator.custom_levels "With space" }
   end
 
   def test_create

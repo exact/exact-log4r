@@ -1,6 +1,6 @@
-require 'test_helper'
+require_relative 'test_helper'
 
-class TestPatternFormatter < TestCase
+class TestPatternFormatter < Minitest::Test
   include Log4r
 
   def test_pattern

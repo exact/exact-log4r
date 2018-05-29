@@ -1,6 +1,6 @@
-require 'test_helper'
+require_relative 'test_helper'
 
-class TestMDC < TestCase
+class TestMDC < Minitest::Test
   include Log4r
 
   def test_multithread_copy

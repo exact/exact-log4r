@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative 'test_helper'
 
 # Define a custom outputter that allows arrays in configuration hash
 module Log4r
@@ -13,7 +13,7 @@ module Log4r
 end
 
 
-class TestYaml < TestCase
+class TestYaml < Minitest::Test
   include Log4r
 
   def setup

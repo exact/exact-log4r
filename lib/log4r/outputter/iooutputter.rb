@@ -39,7 +39,7 @@ module Log4r
     # perform the write
     def write(data)
       begin
-        @out.print data
+        @out.print adjust(data)
         @out.flush
       rescue IOError => ioe # recover from this instead of crash
         Logger.log_internal {"IOError in Outputter '#{@name}'!"}

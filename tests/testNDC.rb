@@ -1,6 +1,6 @@
-require 'test_helper'
+require_relative 'test_helper'
 
-class TestNDC < TestCase
+class TestNDC < Minitest::Test
   include Log4r
 
   def test_ndc_remove_push

@@ -22,7 +22,7 @@ module Log4r
 
     def write(data)
       begin
-        @client.log(data.strip, @category)
+        @client.log(adjust(data.strip), @category)
       rescue ScribeThrift::Client::TransportException => e
         Logger.log_internal(-2) {
           "Caught TransportException, is the scribe server alive?"

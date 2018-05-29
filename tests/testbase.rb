@@ -1,6 +1,6 @@
-require 'test_helper'
+require_relative 'test_helper'
 
-class TestBase < TestCase
+class TestBase < Minitest::Test
   include Log4r
 
   # check that LNAMES loads properly (it uses an eval to load)
@@ -18,11 +18,12 @@ class TestBase < TestCase
   end
   # check bad input and bounds for validate_level
   def test_validate_level
+    Logger.root              # doing this loads the default levels
     7.times{|i| assert_nothing_raised {Log4rTools.validate_level(i)} }
-    assert_raise(ArgumentError) {Log4rTools.validate_level(-1)}
-    assert_raise(ArgumentError) {Log4rTools.validate_level(LEVELS)}
-    assert_raise(ArgumentError) {Log4rTools.validate_level(String)}
-    assert_raise(ArgumentError) {Log4rTools.validate_level("bogus")}
+    assert_raises(ArgumentError) {Log4rTools.validate_level(-1)}
+    assert_raises(ArgumentError) {Log4rTools.validate_level(LEVELS)}
+    assert_raises(ArgumentError) {Log4rTools.validate_level(String)}
+    assert_raises(ArgumentError) {Log4rTools.validate_level("bogus")}
   end
   # decode_bool turns a string 'true' into true and so on
   def test_decode_bool

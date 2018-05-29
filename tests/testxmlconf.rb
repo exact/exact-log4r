@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative 'test_helper'
 
 One=<<-EOX
 <log4r_config><pre_config><custom_levels> Foo </custom_levels>
@@ -14,7 +14,7 @@ Three=<<-EOX
 EOX
 
 # must be run independently
-class TestXmlConf < TestCase
+class TestXmlConf < Minitest::Test
   include Log4r
 
   def test_load1
