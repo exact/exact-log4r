@@ -99,11 +99,11 @@ module Log4r
     def PatternFormatter.create_format_methods(pf) #:nodoc:
       # first, define the format_date method
       if pf.date_method
-        module_eval "def pf.format_date; Time.now.#{pf.date_method}; end"
+        module_eval "def pf.format_date; make_timestamp.#{pf.date_method}; end"
       else
         module_eval <<-EOS
           def pf.format_date
-            Time.now.strftime "#{pf.date_pattern}"
+            make_timestamp.strftime "#{pf.date_pattern}"
           end
         EOS
       end
@@ -140,6 +140,10 @@ module Log4r
       ebuff << '\n", ' + args.join(', ') + ")\n"
       ebuff << "end\n"
       module_eval ebuff
+    end
+
+    def make_timestamp
+      Time.now
     end
   end
 end

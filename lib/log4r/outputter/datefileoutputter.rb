@@ -45,9 +45,8 @@ module Log4r
     DEFAULT_DATE_FMT = "%Y-%m-%d"
 
     def initialize(_name, hash={})
-      @DatePattern = (hash[:date_pattern] or hash['date_pattern'] or
-                      DEFAULT_DATE_FMT)
-      @DateStamp = Time.now.strftime( @DatePattern);
+      @DatePattern = (hash[:date_pattern] or hash['date_pattern'] or DEFAULT_DATE_FMT)
+      @DateStamp = make_timestamp.strftime(@DatePattern)
       _dirname = (hash[:dirname] or hash['dirname'])
       # hash[:dirname] masks hash[:filename]
       if _dirname
@@ -61,6 +60,9 @@ module Log4r
         @filebase = File.basename( $0, '.rb') + ".log"
       else
         @filebase = File.basename((hash[:filename] or hash['filename'] or ""))
+        # Workaround for the Bug where the _dirname remains undefined. Assign the _dirname
+        # to the file directory.
+        _dirname = File.dirname((hash[:filename] or hash['filename'] or ""))
       end
 
       # Get rid of the 'nil' in the path
@@ -82,14 +84,13 @@ module Log4r
 
     # construct a new filename from the DateStamp
     def makeNewFilename
-        @DateStamp = Time.now.strftime( @DatePattern);
-        @filename = File.join(File.dirname(@filename),
-                    @filebase.sub(/(\.\w*)$/, "_#{@DateStamp}" + '\1'))
+      @DateStamp = make_timestamp.strftime( @DatePattern);
+      @filename = File.join(File.dirname(@filename), @filebase.sub(/(\.\w*)$/, "_#{@DateStamp}" + '\1'))
     end
 
     # does the file require a change?
     def requiresChange
-      _DateStamp = Time.now.strftime( @DatePattern);
+      _DateStamp = make_timestamp.strftime( @DatePattern);
       if not _DateStamp == @DateStamp
         @DateStamp = _DateStamp
         return true
@@ -111,6 +112,10 @@ module Log4r
       Logger.log_internal {
         "DateFileOutputter '#{@name}' now writing to #{@filename}"
       }
+    end
+
+    def make_timestamp
+      Time.now
     end
   end
 
