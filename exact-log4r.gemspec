@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "log4r"
 
 Gem::Specification.new do |spec|
-  spec.name          = "log4r"
+  spec.name          = "exact-log4r"
   spec.version       = Log4r::VERSION
   spec.authors       = ["Donncha Redmond"]
   spec.email         = ["github@mail.donncha.com"]
