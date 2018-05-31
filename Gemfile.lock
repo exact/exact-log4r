@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    log4r (1.1.10)
+    exact-log4r (1.1.10)
       activesupport
 
 GEM
@@ -26,7 +26,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.16)
-  log4r!
+  exact-log4r!
   minitest (~> 5.0)
   rake (~> 10.0)
 
