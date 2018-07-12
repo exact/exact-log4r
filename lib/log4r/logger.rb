@@ -115,6 +115,20 @@ module Log4r
       add(*_outputters)
     end  
 
+    # see gems/railties-4.2.5/lib/rails/commands/server.rb, method log_to_stdout
+    # requires 'formatter' to be defined at the logger.
+    def formatter
+      # Give it the first formatter we have?
+      outputters.collect {|o| o.formatter}.compact.first
+    end
+    # see gems/activerecord-session_store-0.1.2/lib/active_record/session_store.rb
+    # adding the LoggerSilencer switches off all logs, which we don't want,
+    # so let's add this override method instead
+    def silence_logger(temporary_level = Logger::ERROR)
+      yield
+    end
+
+
     # Add outputters by name or by reference. Can be done any time.
     def add(*_outputters)
       for thing in _outputters
