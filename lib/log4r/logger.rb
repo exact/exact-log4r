@@ -124,7 +124,7 @@ module Log4r
     # see gems/activerecord-session_store-0.1.2/lib/active_record/session_store.rb
     # adding the LoggerSilencer switches off all logs, which we don't want,
     # so let's add this override method instead
-    def silence_logger(temporary_level = Logger::ERROR)
+    def silence_logger(temporary_level=ERROR)
       yield
     end
 
