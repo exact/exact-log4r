@@ -39,28 +39,30 @@ module Log4r
 
     # Given a filename, loads the YAML configuration for Log4r.
     def self.load_yaml_file( filename)
-      actual_load( File.open( filename))
+      actual_load(ERB.new(IO.read(filename)).result)
     end
 
     # You can load a String YAML configuration instead of a file.
     def self.load_yaml_string( string)
-      actual_load( string)
+      actual_load(ERB.new(string).result)
     end
 
     #######
     private
     #######
 
-    def self.actual_load( yaml_docs)
+    def self.actual_load(yaml_docs)
       log4r_config = nil
-      YAML.load_documents( yaml_docs){ |doc|
-        doc.has_key?( 'log4r_config') and log4r_config = doc['log4r_config'] and break
-      }
-      if log4r_config.nil?
-        raise ConfigError, 
-        "Key 'log4r_config:' not defined in yaml documents", caller[1..-1]
+      Psych.load_stream(yaml_docs) do |doc|
+        if doc.key?('log4r_config')
+          log4r_config = doc['log4r_config']
+          break
+        end
       end
-      decode_yaml( log4r_config)
+      if log4r_config.nil?
+        raise ConfigError, "Key 'log4r_config:' not defined in yaml documents", caller[1..-1]
+      end
+      decode_yaml(log4r_config)
     end
     
     def self.decode_yaml( cfg)
